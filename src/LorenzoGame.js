@@ -56,7 +56,8 @@ var LorenzoGame = {
 		}
 	},
 	addMobber: function(){
-		this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
+		if (Lorenzo.stage === 1)
+			this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
 	},
 	setStage1: function(){
 		this.game.add.sprite(0, 0, 'stage1', this.stageGroup);
