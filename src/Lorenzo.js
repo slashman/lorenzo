@@ -82,7 +82,7 @@ var Lorenzo = {
 					}
 				}
 			}
-		} else if (this.game.input.keyboard.isDown(Phaser.KeyCode.Z) && (this.isCharging() || this.isStanding())){
+		} else if (this.stage === 1 && this.game.input.keyboard.isDown(Phaser.KeyCode.Z) && (this.isCharging() || this.isStanding())){
 			this.attacking = true;
 			this.sprite.animations.play('attack');
 			// Attack animation is 5 FPS, meaning each frame takes 200ms. 
