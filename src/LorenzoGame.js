@@ -17,14 +17,7 @@ var PhaserStates = {
 		LorenzoGame.start();
 	}, 
 	update: function() {
-		for (var i = 0; i < LorenzoGame.entities.length; i++){
-			if (!LorenzoGame.entities[i].sprite.body){
-				LorenzoGame.entities.splice(i,1);
-				i--;
-				continue;
-			}
-			LorenzoGame.entities[i].update();
-		}
+		LorenzoGame.update();
 	}
 };
 
@@ -43,6 +36,25 @@ var LorenzoGame = {
 		this.entities.push(Lorenzo);
 		this.entities.push(BullFighter);
 	},
+	update: function(){
+		for (var i = 0; i < this.entities.length; i++){
+			if (!this.entities[i].sprite.body){
+				this.entities.splice(i,1);
+				i--;
+				continue;
+			}
+			this.entities[i].update();
+		}
+		if (Lorenzo.stage === 2 && --this.framecount <= 0){
+			this.framecount = 1;
+			this.back1Sprite.x --;
+			this.back2Sprite.x --;
+			if (this.back1Sprite.x <= -160)
+				this.back1Sprite.x = 160;
+			if (this.back2Sprite.x <= -160)
+				this.back2Sprite.x = 160;
+		}
+	},
 	addMobber: function(){
 		this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
 	},
@@ -55,9 +67,11 @@ var LorenzoGame = {
 		Lorenzo.stage = 1;
 	},
 	setStage2: function(){
+		this.framecount = 10;
 		this.stageGroup.destroy(true);
 		this.mobbersGroup.destroy(true);
-		this.game.add.sprite(0, 0, 'stage2', this.stageGroup);
+		this.back1Sprite = this.game.add.sprite(0, 0, 'stage2', this.stageGroup);
+		this.back2Sprite = this.game.add.sprite(160, 0, 'stage2', this.stageGroup);
 		Lorenzo.sprite.bringToTop();
 		Lorenzo.sprite.x = 20;
 		Lorenzo.sprite.y = 60;

@@ -91,15 +91,20 @@ var Lorenzo = {
 			this.game.time.events.add(800, this._resetMovement, this);
 		} else {
 			var idle = true;
-			if (this.cursors.left.isDown) {
+			if (this.stage === 1){
+				if (this.cursors.left.isDown) {
+					idle = false;
+			        this.sprite.body.velocity.x = -40;
+			    } else if (this.cursors.right.isDown) {
+			    	idle = false;
+			        this.sprite.body.velocity.x = 40;
+			    } else {
+			    	this.sprite.body.velocity.x = 0;
+			    }
+			} else {
 				idle = false;
-		        this.sprite.body.velocity.x = -40;
-		    } else if (this.cursors.right.isDown) {
-		    	idle = false;
-		        this.sprite.body.velocity.x = 40;
-		    } else {
-		    	this.sprite.body.velocity.x = 0;
-		    }
+				this.sprite.body.velocity.x = 0;
+			}
 		    if (this.cursors.up.isDown) {
 		    	idle = false;
 		        this.sprite.body.velocity.y = -20;
@@ -112,6 +117,9 @@ var Lorenzo = {
 		        	this.sprite.body.velocity.x = 10 * (this._flipped ? 1 : -1);
 		    } else {
 		    	this.sprite.body.velocity.y = 0;
+		    	if (this.stage != 1){
+		    		this.sprite.body.velocity.x = 0;
+		    	}
 		    }
 		    if (idle){
 		    	this.sprite.animations.play('idle');
