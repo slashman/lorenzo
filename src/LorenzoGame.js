@@ -60,7 +60,7 @@ var LorenzoGame = {
 			this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
 	},
 	setStage1: function(){
-		this.game.add.sprite(0, 0, 'stage1', this.stageGroup);
+		this.game.add.sprite(0, 0, 'stage1', 0, this.stageGroup);
 		this.peopleSprite = this.game.add.sprite(0, 0, 'stage1-anim', 0, this.stageGroup);
 		this.peopleSprite.animations.add('cheer', [0, 1], 2, true);
 		this.peopleSprite.animations.play('cheer');
