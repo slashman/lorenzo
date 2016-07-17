@@ -3,6 +3,7 @@ var Util = require('./Util');
 var Lorenzo = {
 	attacking: false,
 	inBullfight: true,
+	stage: 1,
 	init: function(lorenzoGame){
 		this.lorenzoGame = lorenzoGame;
 		this.game = lorenzoGame.game;
@@ -126,6 +127,9 @@ var Lorenzo = {
 	    	this.sprite.body.velocity.y = 0;
 			this.sprite.y = 82;	
 	    }
+	    if (this.sprite.x > 148 && this.stage === 1 && !this.inBullfight){
+	    	this.lorenzoGame.setStage2();
+	    }
 	},
 	_setDeadly: function(){
 		this.deadly = true;
@@ -148,6 +152,7 @@ var Lorenzo = {
 			//this.lorenzoGame.addMobber();
 			this.game.time.events.add(500* i, this.lorenzoGame.addMobber, this.lorenzoGame);
 		}
+
 	}
 }
 

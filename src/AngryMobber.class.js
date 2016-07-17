@@ -1,9 +1,9 @@
 var Util = require('./Util')
 
-function AngryMobber(game, x, y, enemy){
+function AngryMobber(game, x, y, enemy, group){
 	this.game = game;
 	this.enemy = enemy;
-	this.sprite = this.game.add.sprite(x, y, 'sprites', 12);
+	this.sprite = this.game.add.sprite(x, y, 'sprites', 12, group);
 	this.sprite.anchor.setTo(.5, 0);
 	this.game.physics.arcade.enable(this.sprite);
 	this.sprite.animations.add('run', [12, 13], 5, true);
