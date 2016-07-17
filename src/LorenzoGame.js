@@ -1,6 +1,7 @@
 var Lorenzo = require('./Lorenzo');
 var BullFighter = require('./BullFighter');
 var AngryMobber = require('./AngryMobber.class');
+var RunningObstacle = require('./RunningObstacle.class');
 
 var PhaserStates = {
 	preload: function() {
@@ -59,6 +60,12 @@ var LorenzoGame = {
 		if (Lorenzo.stage === 1)
 			this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
 	},
+	addRunningBull: function(){
+		if (Lorenzo.stage === 2){
+			this.entities.push(new RunningObstacle(this.game, 180, Math.floor(Math.random()*32)+64, [27, 28, 29, 28], this.mobbersGroup));
+			this.game.time.events.add(Math.floor(Math.random()*2000)+500, this.addRunningBull, this);
+		} 
+	},
 	setStage1: function(){
 		this.game.add.sprite(0, 0, 'stage1', 0, this.stageGroup);
 		this.peopleSprite = this.game.add.sprite(0, 0, 'stage1-anim', 0, this.stageGroup);
@@ -77,6 +84,8 @@ var LorenzoGame = {
 		Lorenzo.sprite.x = 20;
 		Lorenzo.sprite.y = 60;
 		Lorenzo.stage = 2;
+		this.mobbersGroup = this.game.add.group();
+		this.addRunningBull();
 	}
 }
 
