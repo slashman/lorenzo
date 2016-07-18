@@ -1,6 +1,8 @@
 var Lorenzo = require('./Lorenzo');
+var Lorenza = require('./Lorenza');
 var BullFighter = require('./BullFighter');
 var AngryMobber = require('./AngryMobber.class');
+var Butcher = require('./Butcher.class');
 var RunningObstacle = require('./RunningObstacle.class');
 var Util = require('./Util');
 
@@ -75,13 +77,20 @@ var LorenzoGame = {
 	    		Lorenzo.sprite.body.velocity.x = 60;
 	    	}
 	    	if (Lorenzo.sprite.x > 140){
-	    		console.log("win");
+	    		this.setStage3();
 	    	}
 		}
 	},
 	addMobber: function(){
 		if (Lorenzo.stage === 1)
 			this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
+	},
+	addButcher: function(){
+		var distance = Math.floor(Math.random()*60);
+		this.entities.push(new Butcher(this, Math.random() > 0.5 ? 160+distance : -distance, Math.floor(Math.random()*32)+64, Lorenzo, Lorenza, this.butchersGroup));
+		if (!Lorenzo.dead && --this.pendingButchers > 1)
+			this.game.time.events.add(Math.floor(Math.random()*50)*100+5000, this.addButcher, this);
+		this.butcherSprites[--this.currentButcher].visible = false;
 	},
 	addRunningBull: function(){
 		if (Lorenzo.stage === 2){
@@ -126,6 +135,52 @@ var LorenzoGame = {
 			mobberSprite.animations.play('run');
 		}
 		this.addRunningBull();
+	},
+	setStage3: function(){
+		// Wip out Stage 2
+		this.stageGroup.destroy(true);
+		//this.bullsGroup.destroy(true);
+		this.mobbersGroup.destroy(true); //TODO: Remove this after tests
+		// Set stage 3
+		Lorenzo.stage = 3;
+		this.stageGroup = this.game.add.group();
+		this.game.add.sprite(0, 0, 'stage3', 0, this.stageGroup);
+		Lorenzo.sprite.bringToTop();
+		Lorenza.init(this);
+		Lorenzo.sprite.x = 20;
+		Lorenzo.sprite.y = 60;
+		var BUTCHERS = 15;
+		this.pendingButchers = BUTCHERS;
+		this.currentButcher = BUTCHERS;
+		this.butcherSprites = [];
+		this.entities = [];
+		this.entities.push(Lorenzo);
+		for (var i = 0; i < BUTCHERS; i++){
+			this.butcherSprites[i] = this.game.add.sprite(i*10, 0, 'sprites', 12, this.stageGroup); 
+		}
+		for (var i = 0; i < 2; i++){
+			this.addButcher();
+		}
+	},
+	killButcher: function(){
+		
+	},
+	getClosestButcher: function(){
+		var minDistance = 99999;
+		var closest = false;
+		for (var i = 0; i < this.entities.length; i++){
+			var entity = this.entities[i];
+			if (entity === Lorenzo || entity === Lorenza)
+				continue;
+			if (entity.dead)
+				continue;
+			var distance = Util.distance(entity.sprite.x, entity.sprite.y, Lorenzo.sprite.x, Lorenzo.sprite.y);
+			if (distance < minDistance){
+				minDistance = distance;
+				closest = entity;
+			}
+		}
+		return closest;
 	}
 }
 

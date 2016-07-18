@@ -41,8 +41,6 @@ var Lorenzo = {
 		this.sprite.animations.play('die');
 		if (this.inBullfight){
 			this.game.time.events.add(1500, this._addCorpse, this);	
-		} else {
-
 		}
 	},
 	_addCorpse: function(){
@@ -65,13 +63,17 @@ var Lorenzo = {
 	update: function() {
 		if (this.dead)
 			return;
+		// Set nearest enemy
+		if (this.stage === 3){
+			this.enemy = this.lorenzoGame.getClosestButcher();
+		}
 		if (!this.attacking && this.enemy && !this.enemy.dead){
 			if ( (this.enemy.sprite.x > this.sprite.x && this._flipped) || 
 				 (this.enemy.sprite.x < this.sprite.x && !this._flipped) ){
 				this._flipSprite();
 			}
 		}
-		if (this.attacking){
+		if (this.attacking && this.enemy){
 			if (this.deadly){
 				if (this._distanceToEnemy() < 5 && !this.enemy.isInvulnerable()){
 					this.enemy.hit(this._flipped ? -1 : 1);
@@ -82,7 +84,7 @@ var Lorenzo = {
 					}
 				}
 			}
-		} else if (this.stage === 1 && this.game.input.keyboard.isDown(Phaser.KeyCode.Z) && (this.isCharging() || this.isStanding())){
+		} else if (this.stage !== 2 && this.game.input.keyboard.isDown(Phaser.KeyCode.Z) && (this.isCharging() || this.isStanding())){
 			this.attacking = true;
 			this.sprite.animations.play('attack');
 			// Attack animation is 5 FPS, meaning each frame takes 200ms. 
@@ -91,7 +93,7 @@ var Lorenzo = {
 			this.game.time.events.add(800, this._resetMovement, this);
 		} else {
 			var idle = true;
-			if (this.stage === 1){
+			if (this.stage != 2){
 				if (this.cursors.left.isDown) {
 					idle = false;
 			        this.sprite.body.velocity.x = -40;
@@ -108,16 +110,16 @@ var Lorenzo = {
 		    if (this.cursors.up.isDown) {
 		    	idle = false;
 		        this.sprite.body.velocity.y = -20;
-		        if (!this.sprite.body.velocity.x && this.stage === 1)
+		        if (!this.sprite.body.velocity.x && this.stage != 2)
 		        	this.sprite.body.velocity.x = 10 * (this._flipped ? -1 : 1);
 		    } else if (this.cursors.down.isDown) {
 		    	idle = false;
 		    	this.sprite.body.velocity.y = 20;
-		    	if (!this.sprite.body.velocity.x  && this.stage === 1)
+		    	if (!this.sprite.body.velocity.x  && this.stage != 2)
 		        	this.sprite.body.velocity.x = 10 * (this._flipped ? 1 : -1);
 		    } else {
 		    	this.sprite.body.velocity.y = 0;
-		    	if (this.stage != 1){
+		    	if (this.stage === 2){
 		    		this.sprite.body.velocity.x = 0;
 		    	}
 		    }
