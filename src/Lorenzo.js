@@ -108,12 +108,12 @@ var Lorenzo = {
 		    if (this.cursors.up.isDown) {
 		    	idle = false;
 		        this.sprite.body.velocity.y = -20;
-		        if (!this.sprite.body.velocity.x)
+		        if (!this.sprite.body.velocity.x && this.stage === 1)
 		        	this.sprite.body.velocity.x = 10 * (this._flipped ? -1 : 1);
 		    } else if (this.cursors.down.isDown) {
 		    	idle = false;
 		    	this.sprite.body.velocity.y = 20;
-		    	if (!this.sprite.body.velocity.x)
+		    	if (!this.sprite.body.velocity.x  && this.stage === 1)
 		        	this.sprite.body.velocity.x = 10 * (this._flipped ? 1 : -1);
 		    } else {
 		    	this.sprite.body.velocity.y = 0;

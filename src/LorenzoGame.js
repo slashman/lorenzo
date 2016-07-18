@@ -81,7 +81,7 @@ var LorenzoGame = {
 		this.back1Sprite = this.game.add.sprite(0, 0, 'stage2', this.stageGroup);
 		this.back2Sprite = this.game.add.sprite(160, 0, 'stage2', this.stageGroup);
 		Lorenzo.sprite.bringToTop();
-		Lorenzo.sprite.x = 20;
+		Lorenzo.sprite.x = 60;
 		Lorenzo.sprite.y = 60;
 		Lorenzo.stage = 2;
 		this.mobbersGroup = this.game.add.group();
