@@ -1,7 +1,8 @@
 var Util = require('./Util')
 
-function RunningObstacle(game, x, y, frames, group){
+function RunningObstacle(game, lorenzo, x, y, frames, group){
 	this.game = game;
+	this.lorenzo = lorenzo;
 	this.sprite = this.game.add.sprite(x, y, 'sprites', frames[0], group);
 	this.sprite.anchor.setTo(.5, 0);
 	this.game.physics.arcade.enable(this.sprite);
@@ -35,9 +36,12 @@ RunningObstacle.prototype = {
 		return false;
 	},
 	_doAI: function(){
-        this.sprite.body.velocity.x = -40;
-        this.sprite.body.velocity.y = Util.randomSign() * 20;
-        console.log(Util.randomSign());
+		if (this.lorenzo.dead){
+			this.sprite.body.velocity.x = 60;
+		} else {
+	        this.sprite.body.velocity.x = -40;
+	        this.sprite.body.velocity.y = Util.randomSign() * 20;
+	    }
 	}
 };
 

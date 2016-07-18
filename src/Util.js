@@ -4,6 +4,12 @@ var Util = {
 	},
 	randomSign: function(){
 		return Math.floor(Math.random() * 3) - 1;
+	},
+	rand: function(low, hi){
+		return Math.floor(Math.random() * (hi - low)) + low;
+	},
+	noop: function(){
+		return true;
 	}
 }
 
