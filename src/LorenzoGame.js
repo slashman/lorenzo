@@ -121,8 +121,14 @@ var LorenzoGame = {
 			this.game.time.events.add(Math.floor(Math.random()*50)*100+5000, this.addButcher, this);
 		this.butcherSprites[--this.currentButcher].visible = false;
 	},
-	RUNNING_BULL: [27, 28, 29, 28],
-	RUNNING_FOOL: [30, 31, 32, 31],
+	RUNNING_BULL: {
+		anim: [27, 28, 29, 28],
+		bounds: [10, 5, 0, 9]
+	},
+	RUNNING_FOOL: {
+		anim: [30, 31, 32, 31],
+		bounds: [4, 5, 3, 7]
+	},
 	addRunningBull: function(){
 		if (Lorenzo.stage === 2){
 			this.entities.push(new RunningObstacle(this.game, Lorenzo, 180, Math.floor(Math.random()*32)+64, Math.random() > 0.5 ? this.RUNNING_FOOL : this.RUNNING_BULL, this.bullsGroup));

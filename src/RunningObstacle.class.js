@@ -1,12 +1,13 @@
 var Util = require('./Util')
 
-function RunningObstacle(game, lorenzo, x, y, frames, group){
+function RunningObstacle(game, lorenzo, x, y, spriteSpecs, group){
 	this.game = game;
 	this.lorenzo = lorenzo;
-	this.sprite = this.game.add.sprite(x, y, 'sprites', frames[0], group);
+	this.sprite = this.game.add.sprite(x, y, 'sprites', spriteSpecs.anim[0], group);
 	this.sprite.anchor.setTo(.5, .5);
 	this.game.physics.arcade.enable(this.sprite);
-	this.sprite.animations.add('run', frames, 5, true);
+	this.sprite.body.setSize(spriteSpecs.bounds[0], spriteSpecs.bounds[1], spriteSpecs.bounds[2], spriteSpecs.bounds[3]);
+	this.sprite.animations.add('run', spriteSpecs.anim, 5, true);
 	this.sprite.animations.play('run');
 };
 

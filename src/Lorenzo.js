@@ -11,6 +11,7 @@ var Lorenzo = {
 		this.sprite.anchor.setTo(.5, 0);
 		this.game.physics.arcade.enable(this.sprite);
 		this.sprite.body.collideWorldBounds = true;
+		this.sprite.body.setSize(10, 5, 0, 9);
 		this.sprite.animations.add('idle', [0, 1], 2, true);
 		this.sprite.animations.add('attack', [0, 1, 2, 1], 5, true);
 		this.sprite.animations.add('run', [3, 4, 5], 5, true);
