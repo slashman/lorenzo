@@ -40,7 +40,7 @@ RunningObstacle.prototype = {
 		if (this.lorenzo.dead){
 			this.sprite.body.velocity.x = 60;
 		} else {
-	        this.sprite.body.velocity.x = -40;
+	        this.sprite.body.velocity.x = -30 - (Util.rand(1,5) * 2);
 	        this.sprite.body.velocity.y = Util.randomSign() * 20;
 	    }
 	}
