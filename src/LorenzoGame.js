@@ -16,9 +16,8 @@ var PhaserStates = {
 		this.game.load.image('stage2', 'img/stage2.png');
 		this.game.load.image('stage2-ind', 'img/stage2-ind.png');
 		this.game.load.image('stage3', 'img/stage3.png');
-		this.game.load.image('stage3-mid0', 'img/stage3-mid.png');
-		this.game.load.audio('fight', ['wav/fight.wav']);
-		this.game.load.audio('run', ['wav/run.wav']);
+		this.game.load.audio('fight', ['ogg/fight.ogg', 'mp3/fight.mp3']);
+		this.game.load.audio('run', ['ogg/run.ogg', 'mp3/run.mp3']);
 		this.game.load.spritesheet('sprites', 'img/sprites.png', 14, 14);
 	},
 	create: function() {
