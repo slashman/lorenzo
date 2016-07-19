@@ -196,14 +196,15 @@ var LorenzoGame = {
 		// Set stage 3
 		this.stage1Music.stop();
 		this.stage1Music.destroy();
-		this.stage1Music = this.game.add.audio('fight',0.5, true);
-		this.stage1Music.play();
+		this.stage1Music = false;
+		/*this.stage1Music = this.game.add.audio('fight',0.5, true);
+		this.stage1Music.play();*/
 		Lorenzo.stage = 3;
 		this.stageGroup = this.game.add.group();
 		this.game.add.sprite(0, 0, 'stage3', 0, this.stageGroup);
 		Lorenzo.sprite.bringToTop();
 		Lorenza.init(this);
-		Lorenzo.sprite.x = 20;
+		Lorenzo.sprite.x = 60;
 		Lorenzo.sprite.y = 60;
 		var BUTCHERS = 15;
 		this.pendingButchers = BUTCHERS;
@@ -221,8 +222,8 @@ var LorenzoGame = {
 	},
 	killButcher: function(){
 		if (++this.killedButchers === 15){
-			this.stage1Music.stop();
-			this.stage1Music.destroy();
+			/*this.stage1Music.stop();
+			this.stage1Music.destroy();*/
 		}
 	},
 	getClosestButcher: function(){

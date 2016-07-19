@@ -7,7 +7,7 @@ var Lorenzo = {
 	init: function(lorenzoGame){
 		this.lorenzoGame = lorenzoGame;
 		this.game = lorenzoGame.game;
-		this.sprite = this.game.add.sprite(20, 60, 'sprites', 0);
+		this.sprite = this.game.add.sprite(60, 60, 'sprites', 0);
 		this.sprite.anchor.setTo(.5, 0);
 		this.game.physics.arcade.enable(this.sprite);
 		this.sprite.body.collideWorldBounds = true;
