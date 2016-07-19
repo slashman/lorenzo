@@ -39,6 +39,7 @@ var Lorenzo = {
 		this.sprite.body.velocity.y = 0;
 		this.dead = true;
 		this.sprite.animations.play('die');
+		this.lorenzoGame.playSFX('death');
 		if (this.inBullfight){
 			this.game.time.events.add(1500, this._addCorpse, this);	
 		} else {
@@ -62,6 +63,7 @@ var Lorenzo = {
 		this.dead = false;
 		this.sprite.x = 20;
 		this.sprite.y = 20;
+		this.lorenzoGame.playSFX('respawn');
 	},
 	update: function() {
 		if (this.dead)

@@ -18,6 +18,14 @@ var PhaserStates = {
 		this.game.load.image('stage3', 'img/stage3.png');
 		this.game.load.audio('fight', ['ogg/fight.ogg', 'mp3/fight.mp3']);
 		this.game.load.audio('run', ['ogg/run.ogg', 'mp3/run.mp3']);
+		
+		this.game.load.audio('death', ['wav/death.wav']);
+		this.game.load.audio('hitEnemy', ['wav/hitEnemy.wav']);
+		this.game.load.audio('hitObstacle', ['wav/hitObstacle.wav']);
+		this.game.load.audio('enemyAttack', ['wav/enemyAttack.wav']);
+		this.game.load.audio('ole', ['wav/ole.wav']);
+		this.game.load.audio('respawn', ['wav/respawn.wav']);
+
 		this.game.load.spritesheet('sprites', 'img/sprites.png', 14, 14);
 	},
 	create: function() {
@@ -33,7 +41,18 @@ var LorenzoGame = {
 	init: function(){
 		this.game = new Phaser.Game(160, 96, Phaser.AUTO, '', { preload: PhaserStates.preload, create: PhaserStates.create, update: PhaserStates.update }, false, false);
 	},
+	SFX_MAP: {},
+	playSFX: function(key){
+		this.SFX_MAP[key].play();
+	},
 	start: function(){
+		this.SFX_MAP['death'] = this.game.add.audio('death',0.5, false);
+		this.SFX_MAP['hitEnemy'] = this.game.add.audio('hitEnemy',0.5, false);
+		this.SFX_MAP['hitObstacle'] = this.game.add.audio('hitObstacle',0.5, false);
+		this.SFX_MAP['ole'] = this.game.add.audio('ole',0.5, false);
+		this.SFX_MAP['enemyAttack'] = this.game.add.audio('enemyAttack',0.5, false);
+		this.SFX_MAP['respawn'] = this.game.add.audio('respawn',0.5, false);
+
 		this.stageGroup = this.game.add.group();
 		this.setStage1();
 		Lorenzo.init(this);
@@ -71,6 +90,7 @@ var LorenzoGame = {
 			}
 			if (Lorenzo.invulnerableCount <= 0 && this.game.physics.arcade.collide(Lorenzo.sprite, this.bullsGroup, Util.noop, Util.noop, this)){
 			 	Lorenzo.sprite.x -= 5;
+			 	this.playSFX('hitObstacle');
 			 	Lorenzo.invulnerableCount = 40;
 			 	if (Lorenzo.sprite.x <= 20){
 			 		Lorenzo.hit();
@@ -92,7 +112,7 @@ var LorenzoGame = {
 	},
 	addMobber: function(){
 		if (Lorenzo.stage === 1)
-			this.entities.push(new AngryMobber(this.game, -20, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
+			this.entities.push(new AngryMobber(this, -20, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
 	},
 	addButcher: function(){
 		var distance = Math.floor(Math.random()*60);

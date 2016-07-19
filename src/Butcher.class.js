@@ -78,6 +78,7 @@ Butcher.prototype = {
 		} else if (this._attackBull()){
 			this.attacking = true;
 			this.sprite.animations.play('attack');
+			this.lorenzoGame.playSFX('enemyAttack');
 			// Attack animation is 5 FPS, meaning each frame takes 200ms. 
 			this.game.time.events.add(400, this._setDeadly, this);
 			this.game.time.events.add(600, this._resetDeadly, this);
@@ -90,6 +91,7 @@ Butcher.prototype = {
 		}
 	},
 	hit: function(direction){
+		this.lorenzoGame.playSFX('hitEnemy');
 		this.sprite.animations.stop();
 		this.dead = true;
 		this.sprite.frame = 35;

@@ -12,6 +12,7 @@ var Lorenza = {
 	hit: function(){
 		this.dead = true;
 		this.sprite.animations.play('die');
+		this.lorenzoGame.playSFX('death');
 	},
 	update: function() {}
 }

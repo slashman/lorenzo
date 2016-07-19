@@ -66,12 +66,14 @@ var BullFighter = {
 
 		} else if (this.enemy.dead){
 			this.sprite.animations.play('victory');
+			this.lorenzoGame.playSFX('ole');
 			var vectors = this._getDirectionalVectorsToCenter();
 	        this.sprite.body.velocity.x = vectors.x * 40;
 	        this.sprite.body.velocity.y = vectors.y * 20;
 		} else if (this._attackBull()){
 			this.attacking = true;
 			this.sprite.animations.play('attack');
+			this.lorenzoGame.playSFX('enemyAttack');
 			// Attack animation is 5 FPS, meaning each frame takes 200ms. 
 			this.game.time.events.add(400, this._setDeadly, this);
 			this.game.time.events.add(600, this._resetDeadly, this);
@@ -102,8 +104,10 @@ var BullFighter = {
 	},
 	hit: function(dir){
 		if (--this.oles > 0){
+			this.lorenzoGame.playSFX('ole');
 			this.ole();
 		} else {
+			this.lorenzoGame.playSFX('hitEnemy');
 			this.die(dir);
 		}
 	},

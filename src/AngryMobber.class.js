@@ -1,7 +1,8 @@
 var Util = require('./Util')
 
-function AngryMobber(game, x, y, enemy, group){
-	this.game = game;
+function AngryMobber(lorenzoGame, x, y, enemy, group){
+	this.lorenzoGame = lorenzoGame;
+	this.game = lorenzoGame.game;
 	this.enemy = enemy;
 	this.sprite = this.game.add.sprite(x, y, 'sprites', 12, group);
 	this.sprite.anchor.setTo(.5, 0);
@@ -65,6 +66,7 @@ AngryMobber.prototype = {
 		} else if (this._attackBull()){
 			this.attacking = true;
 			this.sprite.animations.play('attack');
+			this.lorenzoGame.playSFX('enemyAttack');
 			// Attack animation is 5 FPS, meaning each frame takes 200ms. 
 			this.game.time.events.add(400, this._setDeadly, this);
 			this.game.time.events.add(600, this._resetDeadly, this);
