@@ -92,7 +92,7 @@ Butcher.prototype = {
 	hit: function(direction){
 		this.sprite.animations.stop();
 		this.dead = true;
-		this.sprite.frame = 19; //TODO: Add dead butcher sprite
+		this.sprite.frame = 35;
 		this.sprite.body.velocity.y = 0; 
 		this.sprite.body.velocity.x = 30 * direction; 
 		this.game.time.events.add(500, this._layDead, this);
