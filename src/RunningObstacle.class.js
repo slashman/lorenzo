@@ -11,7 +11,7 @@ function RunningObstacle(game, lorenzo, x, y, frames, group){
 };
 
 RunningObstacle.prototype = {
-	framesToReact: 300,
+	framesToReact: 100,
 	update: function(){
 		if (this._react()){
 			this._doAI();	
@@ -30,7 +30,7 @@ RunningObstacle.prototype = {
 			return false;
 		this.framesToReact --;
 		if (--this.framesToReact < 0){
-			this.framesToReact = Math.floor(Math.random()*30)+30;
+			this.framesToReact = Math.floor(Math.random()*30)+100;
 			return true;
 		}
 		return false;
