@@ -9,7 +9,7 @@ function Butcher(lorenzoGame, x, y, lorenzo, lorenza, group){
 	this.sprite = this.game.add.sprite(x, y, 'sprites', 12, group);
 	this.sprite.anchor.setTo(.5, 0);
 	this.game.physics.arcade.enable(this.sprite);
-	this.sprite.animations.add('run', [12, 13], 5, true);
+	this.sprite.animations.add('run', [15, 16, 17], 5, true);
 	this.sprite.animations.add('attack', [12, 13, 14, 13], 5, true);
 	this.sprite.animations.play('run');
 };

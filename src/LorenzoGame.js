@@ -70,6 +70,9 @@ var LorenzoGame = {
 			 		Lorenzo.hit();
 			 		this.indicatorSprite.animations.stop();
 			 		this.indicatorSprite.body.velocity.x = 0;
+					for (var i = 0; i < this.mobberSprites.length; i++){
+						this.mobberSprites[i].animations.play('attack');
+					}
 			 	}
 	    	}
 	    	if (this.indicatorSprite.x > 150){
@@ -129,10 +132,13 @@ var LorenzoGame = {
 		Lorenzo.sprite.y = 60;
 		Lorenzo.stage = 2;
 		this.bullsGroup = this.game.add.group();
-		for (var i = 0; i < 5; i++){
-			var mobberSprite = this.game.add.sprite(-3 + Util.rand(0, 10), 50 + i*10, 'sprites', 12, this.stageGroup);
-			mobberSprite.animations.add('run', [12, 13], 5, true);
+		this.mobberSprites = [];
+		for (var i = 0; i < 4; i++){
+			var mobberSprite = this.game.add.sprite(-3 + Util.rand(0, 10), 50 + i*13, 'sprites', 12, this.stageGroup);
+			mobberSprite.animations.add('run', [15, 16, 17], 5, true);
+			mobberSprite.animations.add('attack', [12, 13, 14, 13], 5, true);
 			mobberSprite.animations.play('run');
+			this.mobberSprites.push(mobberSprite);
 		}
 		this.addRunningBull();
 	},
