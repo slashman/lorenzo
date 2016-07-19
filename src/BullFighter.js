@@ -122,7 +122,7 @@ var BullFighter = {
 	},
 	die: function(direction){
 		this.sprite.animations.stop();
-		this.lorenzoGame.peopleSprite.animations.stop();
+		this.lorenzoGame.stage1Shocking();
 		this.dead = true;
 		this.sprite.frame = 19;
 		this.sprite.body.velocity.x = 30 * direction; 

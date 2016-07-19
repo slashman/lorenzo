@@ -8,6 +8,8 @@ var Util = require('./Util');
 
 var PhaserStates = {
 	preload: function() {
+		this.game.load.image('title1', 'img/title1.png');
+		this.game.load.image('title2', 'img/title2.png');
 		this.game.load.image('stage1', 'img/stage1.png');
 		this.game.load.spritesheet('stage1-anim', 'img/stage1-ppl.png', 160, 96);
 		this.game.load.image('stage1', 'img/stage1.png');
@@ -15,6 +17,8 @@ var PhaserStates = {
 		this.game.load.image('stage2-ind', 'img/stage2-ind.png');
 		this.game.load.image('stage3', 'img/stage3.png');
 		this.game.load.image('stage3-mid0', 'img/stage3-mid.png');
+		this.game.load.audio('fight', ['wav/fight.wav']);
+		this.game.load.audio('run', ['wav/run.wav']);
 		this.game.load.spritesheet('sprites', 'img/sprites.png', 14, 14);
 	},
 	create: function() {
@@ -40,6 +44,9 @@ var LorenzoGame = {
 		this.entities = [];
 		this.entities.push(Lorenzo);
 		this.entities.push(BullFighter);
+		this.stage1Music = this.game.add.audio('fight',0.5, true);
+		this.stage1Music.play();
+
 	},
 	update: function(){
 		for (var i = 0; i < this.entities.length; i++){
@@ -104,11 +111,23 @@ var LorenzoGame = {
 				this.game.time.events.add(Math.floor(Math.random()*2000)+500, this.addRunningBull, this);
 		} 
 	},
+	stage1Shocking: function(){
+		this.peopleSprite.animations.stop();
+		this.stage1Music.stop();
+		this.stage1Music.destroy();
+	},
 	setStage1: function(){
 		this.game.add.sprite(0, 0, 'stage1', 0, this.stageGroup);
 		this.peopleSprite = this.game.add.sprite(0, 0, 'stage1-anim', 0, this.stageGroup);
 		this.peopleSprite.animations.add('cheer', [0, 1], 2, true);
 		this.peopleSprite.animations.play('cheer');
+		this.titleSprite = this.game.add.sprite(0, 0, 'title1', 0, this.stageGroup);
+		this.game.time.events.add(3000, function(){
+			this.titleSprite.loadTexture('title2');
+		}, this);
+		this.game.time.events.add(8000, function(){
+			this.titleSprite.destroy();
+		}, this);
 		this.mobbersGroup = this.game.add.group();
 		Lorenzo.stage = 1;
 	},
@@ -150,6 +169,10 @@ var LorenzoGame = {
 		//this.bullsGroup.destroy(true);
 		this.mobbersGroup.destroy(true); //TODO: Remove this after tests
 		// Set stage 3
+		this.stage1Music.stop();
+		this.stage1Music.destroy();
+		this.stage1Music = this.game.add.audio('fight',0.5, true);
+		this.stage1Music.play();
 		Lorenzo.stage = 3;
 		this.stageGroup = this.game.add.group();
 		this.game.add.sprite(0, 0, 'stage3', 0, this.stageGroup);
@@ -159,6 +182,7 @@ var LorenzoGame = {
 		Lorenzo.sprite.y = 60;
 		var BUTCHERS = 15;
 		this.pendingButchers = BUTCHERS;
+		this.killedButchers = 0;
 		this.currentButcher = BUTCHERS;
 		this.butcherSprites = [];
 		this.entities = [];
@@ -171,7 +195,10 @@ var LorenzoGame = {
 		}
 	},
 	killButcher: function(){
-		
+		if (++this.killedButchers === 15){
+			this.stage1Music.stop();
+			this.stage1Music.destroy();
+		}
 	},
 	getClosestButcher: function(){
 		var minDistance = 99999;

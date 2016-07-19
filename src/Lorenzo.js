@@ -41,6 +41,9 @@ var Lorenzo = {
 		this.sprite.animations.play('die');
 		if (this.inBullfight){
 			this.game.time.events.add(1500, this._addCorpse, this);	
+		} else {
+			if (this.lorenzoGame.stage1Music)
+				this.lorenzoGame.stage1Music.stop();
 		}
 	},
 	_addCorpse: function(){
@@ -155,6 +158,8 @@ var Lorenzo = {
 		if (this._flipped){
 			this._flipSprite();
 		}
+		this.lorenzoGame.stage1Music = this.game.add.audio('run',0.5, true);
+		this.lorenzoGame.stage1Music.play();
 		var goSprite = this.game.add.sprite(132, 60, 'sprites', 23);
 		goSprite.animations.add('blink', [23, 26], 2, true);
 		goSprite.animations.play('blink');
