@@ -30,6 +30,7 @@ var PhaserStates = {
 	},
 	create: function() {
 		this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+		this.scale.pageAlignHorizontally = true;
 		LorenzoGame.start();
 	}, 
 	update: function() {
