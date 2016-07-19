@@ -95,9 +95,11 @@ var LorenzoGame = {
 			this.game.time.events.add(Math.floor(Math.random()*50)*100+5000, this.addButcher, this);
 		this.butcherSprites[--this.currentButcher].visible = false;
 	},
+	RUNNING_BULL: [27, 28, 29, 28],
+	RUNNING_FOOL: [30, 31, 32, 31],
 	addRunningBull: function(){
 		if (Lorenzo.stage === 2){
-			this.entities.push(new RunningObstacle(this.game, Lorenzo, 180, Math.floor(Math.random()*32)+64, [27, 28, 29, 28], this.bullsGroup));
+			this.entities.push(new RunningObstacle(this.game, Lorenzo, 180, Math.floor(Math.random()*32)+64, Math.random() > 0.5 ? this.RUNNING_FOOL : this.RUNNING_BULL, this.bullsGroup));
 			if (!Lorenzo.dead)
 				this.game.time.events.add(Math.floor(Math.random()*2000)+500, this.addRunningBull, this);
 		} 
