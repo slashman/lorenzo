@@ -112,6 +112,11 @@ var BullFighter = {
         this.sprite.frame = 18;
         this.oleing = true;
         this.game.time.events.add(600, this._resetOleing, this);
+        if (this.sprite.y > 70){
+        	this.sprite.y -= 5;
+        } else {
+        	this.sprite.y += 5;
+        }
 
 	},
 	isInvulnerable: function(){
@@ -139,7 +144,7 @@ var BullFighter = {
 		return this._distanceToEnemy() < 10;
 	},
 	_getCloserToBull: function(){
-		return this._distanceToEnemy() > 40;
+		return this._distanceToEnemy() > 35;
 	},
 	_getFartherFromBull: function(){
 		return this._distanceToEnemy() < 5;

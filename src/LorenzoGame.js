@@ -93,7 +93,7 @@ var LorenzoGame = {
 	},
 	addMobber: function(){
 		if (Lorenzo.stage === 1)
-			this.entities.push(new AngryMobber(this.game, -40, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
+			this.entities.push(new AngryMobber(this.game, -20, Math.floor(Math.random()*32)+64, Lorenzo, this.mobbersGroup));
 	},
 	addButcher: function(){
 		var distance = Math.floor(Math.random()*60);
