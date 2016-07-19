@@ -1,0 +1,29 @@
+body {
+	background-color: #bb2222;
+	margin: 0;
+	height: 100%;
+}
+
+#main {
+	background-color: black;
+	color: white;
+	font-family: sans-serif;
+	text-align: center;
+	max-width: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 30px;
+}
+
+#main a {
+	color: white;
+}
+
+#main a:visited {
+	color: white;
+}
+
+.screenshot {
+	border-radius: 25px;
+	border: 2px solid #bb2222;
+}
