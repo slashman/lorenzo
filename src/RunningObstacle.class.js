@@ -20,9 +20,9 @@ RunningObstacle.prototype = {
 			this.sprite.body.velocity.y = 0;
 			this.sprite.y = 54+7;
 	    }
-	    if (this.sprite.y > 82-7){
+	    if (this.sprite.y > 89){
 	    	this.sprite.body.velocity.y = 0;
-			this.sprite.y = 82-7;	
+			this.sprite.y = 89;	
 	    }
 	},
 	_react: function(){
