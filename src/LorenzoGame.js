@@ -145,7 +145,7 @@ var LorenzoGame = {
 		this.game.physics.arcade.enable(this.indicatorSprite);
 		this.indicatorSprite.animations.add('run', [3, 4, 5], 5, true);
 		this.indicatorSprite.animations.play('run');
-		this.indicatorSprite.body.velocity.x = 2;
+		this.indicatorSprite.body.velocity.x = 4;
 		Lorenzo.invulnerableCount = 0;
 
 		Lorenzo.sprite.bringToTop();
