@@ -103,6 +103,8 @@ var BullFighter = {
 		}
 	},
 	hit: function(dir){
+		if (this.dead)
+			return;
 		if (--this.oles > 0){
 			this.lorenzoGame.playSFX('ole');
 			this.ole();
