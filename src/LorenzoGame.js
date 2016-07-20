@@ -153,7 +153,7 @@ var LorenzoGame = {
 		if (Lorenzo.stage === 2){
 			this.entities.push(new RunningObstacle(this.game, Lorenzo, 180, Math.floor(Math.random()*32)+64, Math.random() > 0.5 ? this.RUNNING_FOOL : this.RUNNING_BULL, this.bullsGroup));
 			if (!Lorenzo.dead)
-				this.game.time.events.add(Math.floor(Math.random()*500)+200, this.addRunningBull, this);
+				this.game.time.events.add(Math.floor(Math.random()*500)+400, this.addRunningBull, this);
 		} 
 	},
 	stage1Shocking: function(){
