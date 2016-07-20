@@ -5,7 +5,7 @@ var BullFighter = {
 	init: function(lorenzoGame){
 		this.lorenzoGame = lorenzoGame;
 		this.game = lorenzoGame.game;
-		this.sprite = this.game.add.sprite(120, 65, 'sprites', 6);
+		this.sprite = this.game.add.sprite(120, 65, 'sprites', 6, lorenzoGame.stageGroup);
 		this.sprite.anchor.setTo(.5, 0);
 		this.game.physics.arcade.enable(this.sprite);
 		this.sprite.body.collideWorldBounds = true;

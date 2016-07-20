@@ -4,6 +4,8 @@ var Lorenzo = {
 	attacking: false,
 	inBullfight: true,
 	stage: 1,
+	score: 5000,
+	scoreDownTimer: 60,
 	init: function(lorenzoGame){
 		this.lorenzoGame = lorenzoGame;
 		this.game = lorenzoGame.game;
@@ -42,6 +44,7 @@ var Lorenzo = {
 		this.sprite.animations.play('die');
 		this.lorenzoGame.playSFX('death');
 		if (this.inBullfight){
+			this.reduceScore(1000);
 			this.game.time.events.add(1500, this._addCorpse, this);	
 		} else {
 			if (this.lorenzoGame.stage1Music)
@@ -49,7 +52,7 @@ var Lorenzo = {
 		}
 	},
 	_addCorpse: function(){
-		var sprite = this.game.add.sprite(this.sprite.x, this.sprite.y, 'sprites', 22);
+		var sprite = this.game.add.sprite(this.sprite.x, this.sprite.y, 'sprites', 22, this.lorenzoGame.stageGroup);
 		sprite.anchor.setTo(.5, 0);
 		if (this._flipped){
 			sprite.scale.x *= -1;
@@ -135,6 +138,13 @@ var Lorenzo = {
 		    	this.sprite.animations.play('run');
 		    }
 		}
+		if (this.stage !== 2 && this.enemy && !this.enemy.dead){
+			// Time runs out
+			if (--this.scoreDownTimer < 0){
+				this.reduceScore(10);
+				this.scoreDownTimer = 60;
+			}
+		}
 		if (this.sprite.y < 54) {
 			this.sprite.body.velocity.y = 0;
 			this.sprite.y = 54;
@@ -163,7 +173,7 @@ var Lorenzo = {
 		}
 		this.lorenzoGame.stage1Music = this.game.add.audio('run',0.5, true);
 		this.lorenzoGame.stage1Music.play();
-		var goSprite = this.game.add.sprite(132, 60, 'sprites', 23);
+		var goSprite = this.game.add.sprite(132, 60, 'sprites', 23, this.lorenzoGame.stageGroup);
 		goSprite.animations.add('blink', [23, 26], 2, true);
 		goSprite.animations.play('blink');
 		for (var i = 0; i < 5; i++){
@@ -171,6 +181,13 @@ var Lorenzo = {
 			this.game.time.events.add(500* i, this.lorenzoGame.addMobber, this.lorenzoGame);
 		}
 
+	},
+	reduceScore: function(points){
+		this.score -= points;
+		if (this.score < 0){
+			this.score = 0;
+		}
+		this.lorenzoGame.updateScore();
 	}
 }
 

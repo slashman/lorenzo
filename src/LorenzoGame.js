@@ -16,6 +16,7 @@ var PhaserStates = {
 		this.game.load.image('stage2', 'img/stage2.png');
 		this.game.load.image('stage2-ind', 'img/stage2-ind.png');
 		this.game.load.image('stage3', 'img/stage3.png');
+		this.game.load.spritesheet('digits', 'img/digits.png', 6, 10);
 		this.game.load.audio('fight', ['ogg/fight.ogg', 'mp3/fight.mp3']);
 		this.game.load.audio('run', ['ogg/run.ogg', 'mp3/run.mp3']);
 		
@@ -53,8 +54,12 @@ var LorenzoGame = {
 		this.SFX_MAP['ole'] = this.game.add.audio('ole',0.5, false);
 		this.SFX_MAP['enemyAttack'] = this.game.add.audio('enemyAttack',0.5, false);
 		this.SFX_MAP['respawn'] = this.game.add.audio('respawn',0.5, false);
+		this.scoreSprites = [];
+		
+		this.mainGroup = this.game.add.group();
+		this.hudGroup = this.game.add.group();
 
-		this.stageGroup = this.game.add.group();
+		this.stageGroup = this.game.add.group(this.mainGroup);
 		this.setStage1();
 		Lorenzo.init(this);
 		BullFighter.init(this);
@@ -65,7 +70,10 @@ var LorenzoGame = {
 		this.entities.push(BullFighter);
 		this.stage1Music = this.game.add.audio('fight',0.5, true);
 		this.stage1Music.play();
-
+		for (var i = 0; i < 4; i++){
+			this.scoreSprites[i] = this.game.add.sprite(70+i*8, 2, 'digits', 0, this.hudGroup);
+		}
+		this.updateScore();
 	},
 	update: function(){
 		for (var i = 0; i < this.entities.length; i++){
@@ -91,6 +99,7 @@ var LorenzoGame = {
 			}
 			if (Lorenzo.invulnerableCount <= 0 && this.game.physics.arcade.collide(Lorenzo.sprite, this.bullsGroup, Util.noop, Util.noop, this)){
 			 	Lorenzo.sprite.x -= 5;
+			 	Lorenzo.reduceScore(6);
 			 	this.playSFX('hitObstacle');
 			 	Lorenzo.invulnerableCount = 40;
 			 	if (Lorenzo.sprite.x <= 20){
@@ -109,6 +118,16 @@ var LorenzoGame = {
 	    	if (Lorenzo.sprite.x > 140){
 	    		this.setStage3();
 	    	}
+		}
+	},
+	updateScore: function(){
+		for (var i = 0; i < 4; i++){
+			this.scoreSprites[i].visible = false;
+		}
+		var stringScore = Lorenzo.score + '';
+		for (var i = 0; i < stringScore.length; i++){
+			this.scoreSprites[i].loadTexture('digits', parseInt(stringScore.charAt(i)));
+			this.scoreSprites[i].visible = true;
 		}
 	},
 	addMobber: function(){
@@ -141,6 +160,8 @@ var LorenzoGame = {
 		this.peopleSprite.animations.stop();
 		this.stage1Music.stop();
 		this.stage1Music.destroy();
+		Lorenzo.score++;
+		this.updateScore();
 	},
 	setStage1: function(){
 		this.game.add.sprite(0, 0, 'stage1', 0, this.stageGroup);
@@ -154,7 +175,7 @@ var LorenzoGame = {
 		this.game.time.events.add(8000, function(){
 			this.titleSprite.destroy();
 		}, this);
-		this.mobbersGroup = this.game.add.group();
+		this.mobbersGroup = this.game.add.group(this.mainGroup);
 		Lorenzo.stage = 1;
 	},
 	setStage2: function(){
@@ -163,7 +184,7 @@ var LorenzoGame = {
 		this.mobbersGroup.destroy(true);
 		// Set stage 2
 		this.framecount = 10;
-		this.stageGroup = this.game.add.group();
+		this.stageGroup = this.game.add.group(this.mainGroup);
 		this.back1Sprite = this.game.add.sprite(0, 0, 'stage2', 0, this.stageGroup);
 		this.back2Sprite = this.game.add.sprite(160, 0, 'stage2', 0, this.stageGroup);
 		this.game.add.sprite(6, 4, 'stage2-ind', 0, this.stageGroup);
@@ -173,12 +194,11 @@ var LorenzoGame = {
 		this.indicatorSprite.animations.play('run');
 		this.indicatorSprite.body.velocity.x = 4;
 		Lorenzo.invulnerableCount = 0;
-
 		Lorenzo.sprite.bringToTop();
 		Lorenzo.sprite.x = 90;
 		Lorenzo.sprite.y = 60;
 		Lorenzo.stage = 2;
-		this.bullsGroup = this.game.add.group();
+		this.bullsGroup = this.game.add.group(this.mainGroup);
 		this.mobberSprites = [];
 		for (var i = 0; i < 4; i++){
 			var mobberSprite = this.game.add.sprite(-3 + Util.rand(0, 10), 50 + i*13, 'sprites', 12, this.stageGroup);
@@ -188,6 +208,7 @@ var LorenzoGame = {
 			this.mobberSprites.push(mobberSprite);
 		}
 		this.addRunningBull();
+		this.updateScore();
 	},
 	setStage3: function(){
 		// Wip out Stage 2
@@ -201,10 +222,10 @@ var LorenzoGame = {
 		/*this.stage1Music = this.game.add.audio('fight',0.5, true);
 		this.stage1Music.play();*/
 		Lorenzo.stage = 3;
-		this.stageGroup = this.game.add.group();
+		this.stageGroup = this.game.add.group(this.mainGroup);
 		this.game.add.sprite(0, 0, 'stage3', 0, this.stageGroup);
 		Lorenzo.sprite.bringToTop();
-		Lorenza.init(this);
+		Lorenza.init(this, Lorenzo);
 		Lorenzo.sprite.x = 60;
 		Lorenzo.sprite.y = 60;
 		var BUTCHERS = 15;
@@ -215,7 +236,7 @@ var LorenzoGame = {
 		this.entities = [];
 		this.entities.push(Lorenzo);
 		for (var i = 0; i < BUTCHERS; i++){
-			this.butcherSprites[i] = this.game.add.sprite(i*10, 0, 'sprites', 12, this.stageGroup); 
+			this.butcherSprites[i] = this.game.add.sprite(i*10, 12, 'sprites', 12, this.stageGroup); 
 		}
 		for (var i = 0; i < 2; i++){
 			this.addButcher();
