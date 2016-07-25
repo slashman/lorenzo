@@ -19,6 +19,13 @@ var Lorenzo = {
 		this.sprite.animations.add('run', [3, 4, 5], 5, true);
 		this.sprite.animations.add('die', [21, 22], 1, false);
 		this.cursors = this.game.input.keyboard.createCursorKeys();
+		if (!this.game.device.desktop){
+ 			this.pad = this.game.plugins.add(Phaser.VirtualJoystick);
+ 			this.stick = this.pad.addDPad(20, 20, 20, 'dpad');
+ 			this.stick.scale = 0.2;
+			this.attackButton = this.pad.addButton(140, 20, 'dpad', 'button1-up', 'button1-down');
+			this.attackButton.scale = 0.4; 
+		}
 	}, 
 	_flipSprite: function(){
 		this._flipped = !this._flipped;
@@ -69,6 +76,21 @@ var Lorenzo = {
 		this.sprite.y = 20;
 		this.lorenzoGame.playSFX('respawn');
 	},
+	isLeftDown: function(){
+ 		return this.cursors.left.isDown || (this.stick && this.stick.isDown && this.stick.direction === Phaser.LEFT);
+ 	},
+ 	isRightDown: function(){
+ 		return this.cursors.right.isDown || (this.stick && this.stick.isDown && this.stick.direction === Phaser.RIGHT);
+ 	},
+ 	isUpDown: function(){
+ 		return this.cursors.up.isDown || (this.stick && this.stick.isDown && this.stick.direction === Phaser.UP);
+ 	},
+ 	isDownDown: function(){
+ 		return this.cursors.down.isDown || (this.stick && this.stick.isDown && this.stick.direction === Phaser.DOWN);
+ 	},
+ 	isAttackDown: function(){
+ 		return this.game.input.keyboard.isDown(Phaser.KeyCode.Z) || (this.attackButton && this.attackButton.isDown);
+ 	},
 	update: function() {
 		if (this.dead)
 			return;
@@ -93,7 +115,7 @@ var Lorenzo = {
 					}
 				}
 			}
-		} else if (this.stage !== 2 && this.game.input.keyboard.isDown(Phaser.KeyCode.Z) && (this.isCharging() || this.isStanding())){
+		} else if (this.stage !== 2 && this.isAttackDown() && (this.isCharging() || this.isStanding())){
 			this.attacking = true;
 			this.sprite.animations.play('attack');
 			// Attack animation is 5 FPS, meaning each frame takes 200ms. 
@@ -103,10 +125,10 @@ var Lorenzo = {
 		} else {
 			var idle = true;
 			if (this.stage != 2){
-				if (this.cursors.left.isDown) {
+				if (this.isLeftDown()) {
 					idle = false;
 			        this.sprite.body.velocity.x = -40;
-			    } else if (this.cursors.right.isDown) {
+			    } else if (this.isRightDown()) {
 			    	idle = false;
 			        this.sprite.body.velocity.x = 40;
 			    } else {
@@ -116,12 +138,12 @@ var Lorenzo = {
 				idle = false;
 				this.sprite.body.velocity.x = 0;
 			}
-		    if (this.cursors.up.isDown) {
+		    if (this.isUpDown()) {
 		    	idle = false;
 		        this.sprite.body.velocity.y = -20;
 		        if (!this.sprite.body.velocity.x && this.stage != 2)
 		        	this.sprite.body.velocity.x = 10 * (this._flipped ? -1 : 1);
-		    } else if (this.cursors.down.isDown) {
+		    } else if (this.isDownDown()) {
 		    	idle = false;
 		    	this.sprite.body.velocity.y = 20;
 		    	if (!this.sprite.body.velocity.x  && this.stage != 2)

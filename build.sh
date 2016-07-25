@@ -6,6 +6,9 @@ mkdir build/ogg
 mkdir build/mp3
 cp html/* build
 cp jslib/* build
+cp jslib/phaser-virtual-joystick/*.js build
+cp jslib/phaser-virtual-joystick/*.png build/img
+cp jslib/phaser-virtual-joystick/*.json build
 cp res/png/* build/img
 cp res/wav/* build/wav
 cp res/mp3/* build/mp3

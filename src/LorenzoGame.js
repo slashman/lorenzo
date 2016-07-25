@@ -8,6 +8,10 @@ var Util = require('./Util');
 
 var PhaserStates = {
 	preload: function() {
+		if (!this.game.device.desktop){
+ 			this.game.load.script('joystick', 'phaser-virtual-joystick.min.js');
+ 			this.game.load.atlas('dpad', 'img/dpad.png', 'dpad.json');
+ 		}
 		this.game.load.image('title1', 'img/title1.png');
 		this.game.load.image('title2', 'img/title2.png');
 		this.game.load.image('stage1', 'img/stage1.png');
@@ -169,9 +173,11 @@ var LorenzoGame = {
 		this.peopleSprite.animations.add('cheer', [0, 1], 2, true);
 		this.peopleSprite.animations.play('cheer');
 		this.titleSprite = this.game.add.sprite(0, 0, 'title1', 0, this.stageGroup);
-		this.game.time.events.add(3000, function(){
-			this.titleSprite.loadTexture('title2');
-		}, this);
+		if (this.game.device.desktop){
+			this.game.time.events.add(3000, function(){
+				this.titleSprite.loadTexture('title2');
+			}, this);
+		}
 		this.game.time.events.add(8000, function(){
 			this.titleSprite.destroy();
 		}, this);
